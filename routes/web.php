@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\UserControllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Login route
+Route::get("login", [UserAuthController::class, "loginUI"]);
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.layouts.layout');
 });
-Route::get("/login", [\App\Http\Controllers\UserAuthController::class, "loginUI"])->name("user.login");
-Route::post("/login", [\App\Http\Controllers\UserAuthController::class, "authenticate"])->name("user.login");
+Route::get("/login", [\App\Http\Controllers\Web\UserControllers\UserAuthController::class, "loginUI"])->name("user.login");
+Route::post("/login", [\App\Http\Controllers\Web\UserControllers\UserAuthController::class, "authenticate"])->name("user.login");
