@@ -4,12 +4,25 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        <li class="nav-item dropdown" style="min-width: 180px; max-width: 180px; width: 180px">
+            <a class="nav-link bg-info rounded dropdown-toggle" href="#" id="navbarVersionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-heart"></i> {{ session("project.selected")->name ?? trans("app.web.header.project-dropdown.no-project") }}
+            </a>
+            <div class="dropdown-menu py-0" aria-labelledby="navbarVersionDropdown">
+                <a class="dropdown-item bg-info disabled" href="#">{{ session("project.selected")->name ?? trans("app.web.header.project-dropdown.no-project") }}</a>
+                <div class="dropdown-divider"></div>
+                @foreach(session("project.list") as $project)
+                    <a class="dropdown-item" href="#">{{ $project->name ?? "" }}</a>
+                @endforeach
+            </div>
+        </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="../../index3.html" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
         </li>
+
     </ul>
 
     <!-- Right navbar links -->
@@ -116,6 +129,22 @@
                 <a href="#" class="dropdown-item">
                     <i class="fas fa-file mr-2"></i> 3 new reports
                     <span class="float-right text-muted text-sm">2 days</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            </div>
+        </li>
+        <!-- Dropdown user -->
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="far fa-user"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-item dropdown-header p-3"><img src="{{ session("auth.info.avatar") }}" class="img-circle elevation-2 mr-2" style="width: 32px; height: 32px; object-fit: cover" alt="User Image">{{ trans("app.web.header.user-dropdown.header-title") }}</span>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-sign-out-alt mr-2"></i> {{ trans("app.web.header.user-dropdown.signout") }}
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>

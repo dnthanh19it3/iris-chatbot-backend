@@ -1,0 +1,29 @@
+.project-container .project-title {
+  text-align: center;
+  font-weight: 600;
+}
+.project-container .project-body {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+.project-container .project-body .project-body-img {
+  width: 140px;
+  height: 140px;
+}
+.project-container .project-footer .action-bar {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+.project-container .project-footer .action-bar .action-bar-item {
+  margin-right: 3px;
+}
+
+.example {
+  display: none;
+}
+
+/*# sourceMappingURL=iris.css.map */

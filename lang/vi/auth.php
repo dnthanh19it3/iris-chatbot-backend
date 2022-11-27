@@ -15,10 +15,5 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    "web" => [
-        "auth" => [
-            "invalid-cred" => "Your information not match. Please check your email and password"
-        ]
-    ]
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.'
 ];

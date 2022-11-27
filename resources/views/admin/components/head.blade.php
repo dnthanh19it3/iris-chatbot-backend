@@ -8,4 +8,6 @@
     <link rel="stylesheet" href="{{ asset("plugins/fontawesome-free/css/all.min.css") }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset("dist/css/adminlte.min.css") }}">
+    <!-- Iris Theme style -->
+    <link rel="stylesheet" href="{{ asset("assets/css/iris.css") }}">
 </head>
