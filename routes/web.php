@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Web\UserControllers\UserAuthController;
+use App\Http\Controllers\Web\User\UserAuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\User\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Login route
-Route::get("login", [UserAuthController::class, "loginUI"]);
+Route::get("login", [UserAuthController::class, "loginUI"])->name("user.auth.login");
+Route::post("login", [UserAuthController::class, "authenticate"])->name("user.auth.login");
 
+Route::prefix("console")->group(function (){
+    Route::prefix("project")->controller(ProjectController::class)->group(function (){
+       Route::get("/", "index")->name("user.project.index");
+    });
+});
 Route::get('/', function () {
     return view('admin.layouts.layout');
+})->name("dashboard");
+
+
+Route::get("/login", [\App\Http\Controllers\Web\User\UserAuthController::class, "loginUI"])->name("user.login");
+Route::post("/login", [\App\Http\Controllers\Web\User\UserAuthController::class, "authenticate"])->name("user.login.post");
+Route::get("test", function (){
+   $user = \Illuminate\Support\Facades\Auth::user();
+   ddd($user, $user->projects()->select("id", "name")->get());
 });
-Route::get("/login", [\App\Http\Controllers\Web\UserControllers\UserAuthController::class, "loginUI"])->name("user.login");
-Route::post("/login", [\App\Http\Controllers\Web\UserControllers\UserAuthController::class, "authenticate"])->name("user.login");
+
+//Chat
+Route::view("csr/{any}", "app")->where("any", ".*");
+Route::view("csr", "app");

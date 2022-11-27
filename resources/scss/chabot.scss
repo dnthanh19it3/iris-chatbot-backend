@@ -1,0 +1,149 @@
+htmll, body {
+    height: 100vh;
+}
+.chat-container {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background: #2d323f;
+    color: white;
+    height: 60px;
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+
+    .icon {
+        width: 140px;
+        height: auto;
+        padding: 16px;
+    }
+
+}
+
+.body {
+    display: flex;
+    flex-direction: column-reverse;
+    flex: 1 1 auto;
+    overflow-y: scroll;
+
+    .line-chat {
+        padding: 16px;
+        padding-bottom: 4px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .your {
+            background: #a6d176;
+            padding: 12px;
+            display: flex;
+            width: fit-content;
+            flex-direction: row;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .their {
+            background: #efefef;
+            color: #2b313f;
+            padding: 12px;
+            display: flex;
+            width: fit-content;
+            flex-direction: row;
+            border-radius: 8px;
+        }
+
+    }
+
+    .line-chat--their {
+        justify-content: flex-start;
+    }
+
+    .line-chat--my {
+        justify-content: flex-end;
+    }
+
+}
+
+.footer {
+    border-top: 1px solid #cdcdcd;
+    height: 60px;
+    background: #fff;
+    flex: 0 1 60px;
+    display: flex;
+    flex-direction: row;
+
+    .input-zone {
+        flex: 1 1 auto;
+
+        .chat-input {
+            width: 100%;
+            height: 100%;
+            padding: 16px;
+            border: none;
+        }
+
+    }
+
+    .action-zone {
+        flex: 0 1 60px;
+
+        .send-btn {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: none;
+        }
+
+    }
+}
+
+footer {
+
+    .action-zone {
+
+        .send-btn {
+
+            .fa-regular {
+                color: #b7bbc4 !important;
+                font-size: 24pt;
+            }
+
+        }
+    }
+}
+
+.splash {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+#body::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px #a6d176;
+    background-color: #F5F5F5;
+}
+
+#body::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+#body::-webkit-scrollbar-thumb
+{
+    background-color: #a6d176;
+}

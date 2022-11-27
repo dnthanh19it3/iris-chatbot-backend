@@ -17,3 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::any("chat", function (Request $request) {
+    logger($request->all());
+    return response()->json([
+        "error" => 0,
+        "data" => [
+            "message" => "Phản hồi từ server từ tin nhắn: " . $request["message"]
+        ],
+        "details" => ""
+    ]);
+});

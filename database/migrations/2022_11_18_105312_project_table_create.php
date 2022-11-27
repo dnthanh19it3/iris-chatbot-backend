@@ -20,6 +20,7 @@ return new class extends Migration
                $table->integer("user_id")->nullable(false);
                $table->string("name", 255)->nullable(false);
                $table->text("description")->nullable(true);
+               $table->tinyInteger("status")->default(0)->nullable(false);
                $table->timestamps();
             });
         }
