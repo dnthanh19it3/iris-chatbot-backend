@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AiRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::any("chat", function (Request $request) {
-    logger($request->all());
-    return response()->json([
-        "error" => 0,
-        "data" => [
-            "message" => "Phản hồi từ server từ tin nhắn: " . $request["message"]
-        ],
-        "details" => ""
-    ]);
+Route::controller(AiRequestController::class)->prefix("ai")->group(function (){
+    Route::post("predict","predictAi")->name("api.ai.predict");
 });

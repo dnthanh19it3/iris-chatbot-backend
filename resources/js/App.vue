@@ -17,7 +17,7 @@ export default {
     name: "App",
     methods: {
         coreInit() {
-            const socket = io("ws://localhost:4000", {
+            const socket = io("ws://192.168.1.3:4000", {
                 reconnectionDelayMax: 10000,
                 auth: {
                     token: "123"

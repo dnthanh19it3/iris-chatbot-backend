@@ -106,7 +106,6 @@ export default {
                           message: msg,
                           from: "client"
                       };
-
                       console.log("Prepare content for send: " + JSON.stringify(sendContent));
                       this.$parent.message.unshift(sendContent)
                       this.$parent.socket.emit("chat", sendContent);
