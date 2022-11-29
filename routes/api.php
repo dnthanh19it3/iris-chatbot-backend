@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\AiRequestController;
+use App\Http\Controllers\Api\SocialNetwork\FacebookApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AiRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(AiRequestController::class)->prefix("ai")->group(function (){
     Route::post("predict","predictAi")->name("api.ai.predict");
+});
+
+Route::prefix("social")->group(function (){
+    Route::controller(FacebookApiController::class)->group(function (){
+        Route::post("hook", "hook");
+   });
 });

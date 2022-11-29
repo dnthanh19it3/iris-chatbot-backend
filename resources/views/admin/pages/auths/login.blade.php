@@ -25,7 +25,7 @@
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
 
-            <form action="{{ route("user.login") }}" method="post">
+            <form action="{{ route("user.auth.login.post") }}" method="post">
                 @csrf
                 <div class="input-group mb-3">
                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old("email") }}">
