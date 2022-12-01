@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AiRequestController;
 use App\Http\Controllers\Api\SocialNetwork\FacebookApiController;
+use App\Ultils\FacebookUltils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,12 +21,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(AiRequestController::class)->prefix("ai")->group(function (){
-    Route::post("predict","predictAi")->name("api.ai.predict");
+Route::controller(AiRequestController::class)->prefix("ai")->group(function () {
+    Route::post("predict", "predictAi")->name("api.ai.predict");
 });
 
-Route::prefix("social")->group(function (){
-    Route::controller(FacebookApiController::class)->group(function (){
-        Route::post("hook", "hook");
-   });
+Route::prefix("social")->group(function () {
+    Route::prefix("facebook")->controller(FacebookApiController::class)->group(function () {
+        Route::any("hook", "hook");
+        Route::post("login_callback", "loginCallback")->name("api.social.login_callback");
+        Route::any("callback", "callback");
+    });
 });
+Route::get("test", [FacebookApiController::class, "test"]);

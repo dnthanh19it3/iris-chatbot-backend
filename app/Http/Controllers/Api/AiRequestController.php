@@ -14,7 +14,6 @@ class AiRequestController extends Controller
             $projectId = $request->project_id;
             $message = $request->message;
             $response = Http::get("localhost:5000/predict", ["msg" => $message]);
-
             if ($response->status() == 200) {
                 $body = json_decode($response->body());
                 $type = $body->type;

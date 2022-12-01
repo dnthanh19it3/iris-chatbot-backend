@@ -73,9 +73,17 @@ return [
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
+            'username' => 'Iris Chatbot platform',
             'emoji' => ':boom:',
-            'level' => env('LOG_LEVEL', 'critical'),
+            'level' => 'error'
+        ],
+
+        'slackNotification' => [
+            'driver' => 'slack',
+            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+            'username' => 'Iris Chatbot platform',
+            'emoji' => ':wave:',
+            'level' => 'info'
         ],
 
         'papertrail' => [

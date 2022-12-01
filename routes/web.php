@@ -44,11 +44,12 @@ Route::middleware(["auth.user"])->group(function (){
             Route::get("/", "index")->name("user.project.index");
         });
     });
-    Route::get("/", function (){
-       return redirect()->route("console.dashboard");
-    });
+
 });
 
+Route::get("/", function (){
+    return view("index");
+});
 
 Route::group(["middleware" => ["guest"]], function (){
     Route::get("login", [UserAuthController::class, "loginUI"])->name("user.auth.login");
