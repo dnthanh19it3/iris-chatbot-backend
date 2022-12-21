@@ -3,79 +3,52 @@
 @section("body")
     <div class="row">
         <div class="col-12">
-            <!-- Default box -->
-            <div class="card">
+            <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">{{ trans("app.web.project.title") }}</h3>
-                    <div class="card-tools">
-                        <a href="{{ route("user.project.create") }}" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+                    <h3 class="card-title">Horizontal Form</h3>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <a href="#" id="login-btn" class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i> Log in with Facebook</a>
+
+                <form class="form-horizontal" method="post" action="{{ route("user.project.update.post") }}">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" name="id" value="{{ $project->id }}">
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Project name" value="{{ $project->name }}">
+                                @error('name')
+                                <div class="text-red">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-2 col-form-label">Description</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="description" id="description" placeholder="Describe about project" value="{{ $project->description }}">
+                                @error('description')
+                                <div class="text-red">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        {{--                        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="rounded" data-use-continue-as="true"></div>--}}
-                        @foreach($data["projects"] as $project)
-                            <div class="col-sm-3 mb-3" role="link" href="#">
-                                <div class="position-relative p-3 border rounded">
-                                    <div class="project-container">
-                                        <div class="project-title">
-                                            {{ $project->name }}
-                                        </div>
-                                        <div class="project-body">
-                                            <img src="{{ asset("assets/images/avatar/sample-user-avatar.jpg") }}"
-                                                 class="project-body-img">
-                                        </div>
-                                        <div class="project-footer">
-                                            <div class="action-bar">
-                                                <div class="action-bar-item">
-                                                    <a href="#" class="btn btn-sm btn-outline-danger">
-                                                        <i class="fas fa-pause"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="action-bar-item">
-                                                    <a href="{{ route("user.project.update", ["id" => $project->id]) }}" class="btn btn-sm btn-success">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="action-bar-item">
-                                                    <a href="#" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ribbon-wrapper">
-                                        <div class="ribbon {{ $project->status ? "bg-success" : "bg-danger" }}">
-                                            {{ $project->status ? trans("app.web.project.status.running") : trans("app.web.project.status.paused") }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    Footer
-                </div>
-                <!-- /.card-footer-->
-            </div>
-            <!-- /.card -->
-        </div>
-    </div>
 
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">Save</button>
+                        <a href="{{ route("user.project.index") }}" class="btn btn-default float-right">Cancel</a>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+<!--    --><?php //dd(session()); ?>
     <!-- Modal -->
     <div class="modal fade" id="linkingModal" tabindex="-1" role="dialog" aria-labelledby=linkingModal" aria-hidden="true">
         <div class="modal-dialog" role="document">

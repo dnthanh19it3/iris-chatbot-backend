@@ -13,6 +13,8 @@ define("MESSAGE_TYPE_MESSAGE_TAG", "MESSAGE_TAG");
 define("API_SEND_MESSAGE", "https://graph.facebook.com/v15.0/me/messages");
 define("API_GET_APP_TOKEN", "https://graph.facebook.com/oauth/access_token");
 define("API_GET_USER_PAGE_LIST", "https://graph.facebook.com/{USER_ID}/accounts");
+define("API_SET_HOOK_PAGE", "https://graph.facebook.com/{PAGE_ID}/subscribed_apps");
+
 
 class FacebookUltils extends ApiController
 {
@@ -83,9 +85,36 @@ class FacebookUltils extends ApiController
             return false;
         }
     }
+
+    public static function setPageHook($pageID, $pageAccessToken){
+        try {
+            $params = [
+                "subscribed_fields" => "messages",
+                "access_token" => $pageAccessToken
+            ];
+            $response = Http::post(self::getApiSetHookURI($pageID),$params);
+            Log::debug($response->json());
+            if($response->status(200) && $response->json()["success"]){
+                return true;;
+            }
+            return false;
+        } catch (\Throwable $e){
+            Log::error($e);
+            return false;
+        }
+    }
     public static function getApiUserPageURI($userID){
         try {
             return str_replace("{USER_ID}", $userID, API_GET_USER_PAGE_LIST);
+        } catch (\Throwable $e){
+            Log::error($e);
+            return false;
+        }
+    }
+
+    public static function getApiSetHookURI($pageID){
+        try {
+            return str_replace("{PAGE_ID}", $pageID, API_SET_HOOK_PAGE);
         } catch (\Throwable $e){
             Log::error($e);
             return false;

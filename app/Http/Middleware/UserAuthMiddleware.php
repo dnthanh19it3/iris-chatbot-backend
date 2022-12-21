@@ -20,6 +20,6 @@ class UserAuthMiddleware
         if(Auth::user()){
             return $next($request);
         }
-        return redirect(route("user.auth.login"));
+        return redirect()->route("user.auth.login");
     }
 }

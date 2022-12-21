@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\SocialNetwork;
 
 use App\Http\Controllers\ApiController;
+use App\Models\Intergration\MessengerImplement;
 use App\Models\Project\Project;
 use App\Ultils\FacebookUltils;
 use Illuminate\Http\Request;
@@ -108,6 +109,30 @@ class FacebookApiController extends ApiController
             return false;
         }
     }
+
+    public function pageVerify(Request $request){
+        Log::info($request->all());
+        $pageList = $request["pageID"];
+        $pageAccessToken = $request["accessToken"];
+        foreach ($pageList as $pageID){
+            $pageData = explode("_", $pageID);
+            $saveHook = FacebookUltils::setPageHook($pageData[0], $pageData[1]);
+            Log::debug($pageData[0]);
+            Log::debug($pageData[1]);
+            Log::debug($saveHook);
+            if(!$saveHook){
+                return $this->responseError();
+            }
+            $project = MessengerImplement::insert([
+                "integration_id" => 222,
+                "page_id" => $pageData[0],
+                "access_token" => $pageData[1],
+                "user_id" => $request->userID
+            ]);
+        }
+        return response()->json($request->all());
+    }
+
     function test(){
         $appAccessToken = FacebookUltils::getAppAccessToken();
         return response()->json($appAccessToken);

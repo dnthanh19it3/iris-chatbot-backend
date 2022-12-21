@@ -18,9 +18,9 @@ return new class extends Migration
             Schema::create($this->table, function (Blueprint $table){
                 $table->id();
                 $table->integer("integration_id")->nullable("false");
-                $table->string("verify_token");
-                $table->string("page_access_token");
-                $table->boolean("verified");
+                $table->string("access_token");
+                $table->string("page_id");
+                $table->string("user_id");
                 $table->timestamps();
             });
         }
