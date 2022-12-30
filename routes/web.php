@@ -52,6 +52,7 @@ Route::middleware(["auth.user"])->group(function (){
         Route::prefix("ai")->group(function (){
             Route::prefix("intent")->controller(IntentController::class)->group(function (){
                 Route::get("/", "index")->name("ai.intent.index");
+                Route::get("/edit/{id}", "edit")->name("ai.intent.edit");
             });
         });
     });
