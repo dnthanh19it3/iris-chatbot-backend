@@ -19,11 +19,11 @@ class Intent extends Model
 
     public function responses()
     {
-        $this->hasMany("response", "intent_id", "id");
+        return $this->hasMany(Response::class, "intent_id", "id");
     }
 
     public function patterns()
     {
-        $this->hasMany("pattern", "intent_id", "id");
+        return $this->hasMany(Pattern::class, "intent_id", "id");
     }
 }

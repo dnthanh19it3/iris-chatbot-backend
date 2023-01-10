@@ -47,7 +47,7 @@ class UserAuthController extends Controller
                 return back(500)->withErrors(["invalid-auth" => trans("app.web.internal-error")])->onlyInput('email');
             }
             //Handle success
-            return redirect()->route('dashboard');
+            return redirect()->route("console.dashboard");
         }
         //Handle failed
         return back()->withErrors(["invalid-auth" => trans("auth.web.auth.invalid-cred")])->onlyInput('email');

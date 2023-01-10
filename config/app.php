@@ -211,5 +211,11 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
-
+    // Facebook
+    "social" => [
+        "facebook" => [
+            "app_id" => env("APP_FACEBOOK_APP_ID", "1125732181473704"),
+            "client_secret" => env("APP_FACEBOK_CLIENT_SECRET", "ef526bdc07cdf0bee8260b403e47a9ac")
+        ]
+    ]
 ];

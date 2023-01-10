@@ -11,7 +11,7 @@
             <div class="dropdown-menu py-0" aria-labelledby="navbarVersionDropdown">
                 <a class="dropdown-item bg-info disabled" href="#">{{ session("project.selected")->name ?? trans("app.web.header.project-dropdown.no-project") }}</a>
                 <div class="dropdown-divider"></div>
-                @foreach(session("project.list") as $project)
+                @foreach(session("project.list") ?? [] as $project)
                     <a class="dropdown-item" href="#">{{ $project->name ?? "" }}</a>
                 @endforeach
             </div>

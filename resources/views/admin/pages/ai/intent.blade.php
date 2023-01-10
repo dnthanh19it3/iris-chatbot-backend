@@ -3,99 +3,82 @@
 @section("body")
     <div class="row">
         <div class="col-12">
-            <!-- Default box -->
-            <div class="card">
+            <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">{{ trans("app.web.project.title") }}</h3>
-                    <div class="card-tools">
-                        <a href="{{ route("user.project.create") }}" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+                    <h3 class="card-title">Horizontal Form</h3>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <a href="#" id="login-btn" class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i> Log in with Facebook</a>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="Search by name">
+                        <span class="input-group-append">
+                        <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i> </button>
+                        </span>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th style="width: 60%">Tags</th>
+                                    <th style="width: 30%">Description</th>
+                                    <th style="min-width: 100px">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($intents as $intent)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $intent->tag }}</td>
+                                        <td>{{ $intent->description }}</td>
+                                        <td>
+                                            <a href="{{ route("ai.intent.edit", ["id" => $intent->id]) }}" class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i></a>
+                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="row">
-                        {{--                        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="rounded" data-use-continue-as="true"></div>--}}
-                        @foreach($data["projects"] as $project)
-                            <div class="col-sm-3 mb-3" role="link" href="#">
-                                <div class="position-relative p-3 border rounded">
-                                    <div class="project-container">
-                                        <div class="project-title">
-                                            {{ $project->name }}
-                                        </div>
-                                        <div class="project-body">
-                                            <img src="{{ asset("assets/images/avatar/sample-user-avatar.jpg") }}"
-                                                 class="project-body-img">
-                                        </div>
-                                        <div class="project-footer">
-                                            <div class="action-bar">
-                                                <div class="action-bar-item">
-                                                    <a href="#" class="btn btn-sm btn-outline-danger">
-                                                        <i class="fas fa-pause"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="action-bar-item">
-                                                    <a href="{{ route("user.project.update", ["id" => $project->id]) }}" class="btn btn-sm btn-success">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="action-bar-item">
-                                                    <a href="#" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ribbon-wrapper">
-                                        <div class="ribbon {{ $project->status ? "bg-success" : "bg-danger" }}">
-                                            {{ $project->status ? trans("app.web.project.status.running") : trans("app.web.project.status.paused") }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info">Create</button>
+                    <div class="float-right">
+                        {!! $intents->links() !!}
                     </div>
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    Footer
-                </div>
-                <!-- /.card-footer-->
-            </div>
-            <!-- /.card -->
-        </div>
-    </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="linkingModal" tabindex="-1" role="dialog" aria-labelledby=linkingModal" aria-hidden="true">
+            </div>
+
+        </div>
+
+    </div>
+    <!--    --><?php //dd(session()); ?>
+        <!-- Modal -->
+    <div class="modal fade" id="linkingModal" tabindex="-1" role="dialog" aria-labelledby=linkingModal"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-search"></i> Chose page to linking</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-search"></i> Chose page to linking
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                   <form id="formPage" enctype="multipart/form-data">
-                       <h5>Congrate! You just authorize use to access your page. Let choose which page to linking with our platform  </h5>
-                       <div class="form-group" id="listPageDiv">
+                    <form id="formPage" enctype="multipart/form-data">
+                        <h5>Congrate! You just authorize use to access your page. Let choose which page to linking with
+                            our platform </h5>
+                        <div class="form-group" id="listPageDiv">
 
-                       </div>
-                       <input type="hidden" id="userID" name="userID">
-                       <input type="hidden" id="accessToken" name="accessToken">
-                       <input type="hidden" id="integration_id" name="integration_id" value="{{ "MIGRATION_ID" }}">
-                   </form>
+                        </div>
+                        <input type="hidden" id="userID" name="userID">
+                        <input type="hidden" id="accessToken" name="accessToken">
+                        <input type="hidden" id="integration_id" name="integration_id" value="{{ "MIGRATION_ID" }}">
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -141,11 +124,11 @@
                 console.log(listPageResponse.data);
                 // Show modal
                 $("#linkingModal").modal();
-                if(listPageResponse.data.length > 0){
+                if (listPageResponse.data.length > 0) {
                     alert("check");
                     let innerCheckbox = "";
                     listPageResponse.data.forEach((item) => {
-                       innerCheckbox += `
+                        innerCheckbox += `
                             <div class="form-check">
                                <input class="form-check-input" type="checkbox" name="pageID" value="${item.id}_${item.access_token}">
                                <label class="form-check-label">${item.name}</label>
@@ -202,11 +185,11 @@
                 var object = {};
                 data.forEach((value, key) => {
                     // Reflect.has in favor of: object.hasOwnProperty(key)
-                    if(!Reflect.has(object, key)){
+                    if (!Reflect.has(object, key)) {
                         object[key] = value;
                         return;
                     }
-                    if(!Array.isArray(object[key])){
+                    if (!Array.isArray(object[key])) {
                         object[key] = [object[key]];
                     }
                     object[key].push(value);

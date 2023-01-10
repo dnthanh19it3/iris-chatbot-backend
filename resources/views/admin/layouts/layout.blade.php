@@ -12,6 +12,7 @@
     @include("admin.components.sidebar")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        <div id="fb-root"></div>
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
@@ -81,5 +82,6 @@
     <!-- /.control-sidebar -->
 </div>
 @include("admin.components.foot_script")
+@yield("custom_js")
 </body>
 </html>
