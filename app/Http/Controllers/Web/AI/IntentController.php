@@ -14,13 +14,26 @@ class IntentController extends Controller
     public function index(){
         $user = Auth::user();
         $project = session("project")["selected"];
-        $intents = Intent::where("project_id", $project->id)->paginate(1);
+        $intents = Intent::where("project_id", $project->id)->paginate(10);
         return view("admin.pages.ai.intent", ["intents" => $intents]);
     }
 
     public function edit(Request $request, $id){
         $intent = Intent::with(["patterns", "responses"])->findOrFail($id);
         return view("admin.pages.ai.intent-update", ["intent" => $intent]);
+    }
+
+    public function create(Request $request){
+        return view("admin.pages.ai.intent-create");
+    }
+
+    public function createPost(Request $request){
+        $selected = session("project")["selected"];
+        $name = $request["name"];
+        $des = $request["description"];
+        $intent = new Intent(["tag" => $name, "description" => $des, "project_id" => $selected->id]);
+        $intent->save();
+        return redirect()->route("ai.intent.index")->with("success", "Created new intnent");
     }
 
     public function editPost(Request $request, $id){
