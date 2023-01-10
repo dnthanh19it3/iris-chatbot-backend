@@ -32,7 +32,7 @@
                                         <td>{{ $intent->tag }}</td>
                                         <td>{{ $intent->description }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i></button>
+                                            <a href="{{ route("ai.intent.edit", ["id" => $intent->id]) }}" class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i></a>
                                             <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
