@@ -4,18 +4,14 @@ namespace App\Models\AI;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Intent extends Model
 {
     use HasFactory;
 
     protected $table = "ai_intents";
-
-    protected $fillable = [
-        "user_id",
-        "project_id",
-        "intent"
-    ];
+    protected $guarded = [];
 
     public function responses()
     {

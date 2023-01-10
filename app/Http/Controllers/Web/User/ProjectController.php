@@ -52,4 +52,10 @@ class ProjectController extends Controller
         }
         return redirect()->route("user.project.index");
     }
+
+    public function exportIntents(Request $request, $id){
+        $project = Project::find($id);
+        $dataset = $project->exportDataset();
+        return response()->json($dataset);
+    }
 }

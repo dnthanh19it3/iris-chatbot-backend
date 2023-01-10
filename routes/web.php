@@ -52,6 +52,8 @@ Route::middleware(["auth.user"])->group(function (){
         Route::prefix("ai")->group(function (){
             Route::prefix("intent")->controller(IntentController::class)->group(function (){
                 Route::get("/", "index")->name("ai.intent.index");
+                Route::get("/create", "create")->name("ai.intent.create");
+                Route::post("create", "createPost")->name("ai.intent.create.post");
                 Route::get("/edit/{id}", "edit")->name("ai.intent.edit");
                 Route::post("/edit/{id}", "editPost")->name("ai.intent.edit-post");
             });
@@ -68,3 +70,4 @@ Route::group(["middleware" => ["guest"]], function (){
     Route::get("login", [UserAuthController::class, "loginUI"])->name("user.auth.login");
     Route::post("login", [UserAuthController::class, "authenticate"])->name("user.auth.login.post");
 });
+Route::get("console/get-dataset/{id}", [ProjectController::class, "exportIntents"])->name("export-dataset");
