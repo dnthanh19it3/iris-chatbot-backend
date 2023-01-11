@@ -24,23 +24,19 @@ class FacebookApiController extends ApiController
         return response()->json($listPage);
     }
 
-    public function hook(Request $request, $project_id)
+    public function hook(Request $request)
     {
         Log::debug('____REQUEST____\n' . json_encode($request->all()));
         try {
-            $project = Project::find($project_id);
-            if (!$project) {
-                Log::error("PROJECT $project_id NOT FOUND");
-                return response("PROJECT_NOT_FOUND", 403);
-            }
             $hub_mode = $request->hub_mode;
             $object = $request->object;
             $entry = $request->entry;
             if ($hub_mode) {
                 switch ($hub_mode) {
                     case "subscribe":
+                        Log::debug("HUB MODE");
                         $hub_challenge = $request->hub_challenge;
-                        return response($hub_challenge, 200);
+                        return $hub_challenge;
                 }
             }
             $size = 1;
@@ -59,27 +55,27 @@ class FacebookApiController extends ApiController
             Log::info("Continue processing");
             Log::info("______________");
 
-            if ($object && !empty($entry)) {
-                switch ($object) {
-                    case "page":
-                        $messageObj = $entry[0]["messaging"];
-                        $sender = $messageObj[0]["sender"]["id"];
-                        $msg = $messageObj[0]["message"]["text"];
-                        $facebookImplement = null;
-                        try {
-                            $facebookImplement = $project->intergrations->where("platform", "messenger")->first()->messengerImplement;
-                        } catch (\Throwable $e) {
-                            throw new \Exception("Not found");
-                        }
-                        $predictResult = $this->predictAi($project_id, $msg);
-                        if (!$predictResult) {
-                            $predictResult = "Tôi chưa hiểu ý bạn lắm";
-                        }
-                        Log::debug($predictResult);
-                        $apiSendResult = FacebookUltils::sendMessage($facebookImplement->page_access_token, $sender, $predictResult);
-                        break;
-                }
-            }
+//            if ($object && !empty($entry)) {
+//                switch ($object) {
+//                    case "page":
+//                        $messageObj = $entry[0]["messaging"];
+//                        $sender = $messageObj[0]["sender"]["id"];
+//                        $msg = $messageObj[0]["message"]["text"];
+//                        $facebookImplement = null;
+//                        try {
+//                            $facebookImplement = $project->intergrations->where("platform", "messenger")->first()->messengerImplement;
+//                        } catch (\Throwable $e) {
+//                            throw new \Exception("Not found");
+//                        }
+//                        $predictResult = $this->predictAi($project_id, $msg);
+//                        if (!$predictResult) {
+//                            $predictResult = "Tôi chưa hiểu ý bạn lắm";
+//                        }
+//                        Log::debug($predictResult);
+//                        $apiSendResult = FacebookUltils::sendMessage($facebookImplement->page_access_token, $sender, $predictResult);
+//                        break;
+//                }
+//            }
             return $this->responseSuccess();
         } catch (\Throwable $e) {
             Log::error($e);
@@ -114,23 +110,23 @@ class FacebookApiController extends ApiController
         Log::info($request->all());
         $pageList = $request["pageID"];
         $pageAccessToken = $request["accessToken"];
-        foreach ($pageList as $pageID){
-            $pageData = explode("_", $pageID);
-            $saveHook = FacebookUltils::setPageHook($pageData[0], $pageData[1]);
-            Log::debug($pageData[0]);
-            Log::debug($pageData[1]);
-            Log::debug($saveHook);
-            if(!$saveHook){
-                return $this->responseError();
-            }
-            $project = MessengerImplement::insert([
-                "integration_id" => 222,
-                "page_id" => $pageData[0],
-                "access_token" => $pageData[1],
-                "user_id" => $request->userID
-            ]);
+
+        $pageData = explode("_", $pageList);
+        $saveHook = FacebookUltils::setPageHook($pageData[0], $pageData[1]);
+        Log::debug($pageData[0]);
+        Log::debug($pageData[1]);
+        Log::debug($saveHook);
+        if(!$saveHook){
+            return $this->responseError();
         }
-        return response()->json($request->all());
+        $project = MessengerImplement::insert([
+            "integration_id" => "123",
+            "page_id" => $pageData[0],
+            "access_token" => $pageData[1],
+            "user_id" => $request->userID
+        ]);
+
+        return $this->responseSuccess();
     }
 
     function test(){

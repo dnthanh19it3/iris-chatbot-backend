@@ -2,7 +2,7 @@
 
 namespace App\Models\Project;
 
-use App\Models\AI\Intent;
+use App\Models\AI\TraningStatus;
 use App\Models\Intergration\Integration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +20,7 @@ class Project extends Model
     }
     public function intents()
     {
-        return $this->hasMany(Intent::class, "project_id", "id");
+        return $this->hasMany(TraningStatus::class, "project_id", "id");
     }
     function exportDataset(){
         $intents = new \stdClass();

@@ -46,15 +46,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route("ai.training.index") }}" class="nav-link">
                         <i class="fas fa-circle nav-icon"></i>
-                        <p>{{ trans("app.web.ai.pattern") }}</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-circle nav-icon"></i>
-                        <p>{{ trans("app.web.ai.response") }}</p>
+                        <p>Training</p>
                     </a>
                 </li>
                 <li class="nav-item">

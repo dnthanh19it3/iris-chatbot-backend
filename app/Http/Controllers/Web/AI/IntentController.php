@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\AI;
 
 use App\Http\Controllers\Controller;
-use App\Models\AI\Intent;
+use App\Models\AI\TraningStatus;
 use App\Models\AI\Pattern;
 use App\Models\AI\Response;
 use Illuminate\Http\Request;
@@ -14,12 +14,12 @@ class IntentController extends Controller
     public function index(){
         $user = Auth::user();
         $project = session("project")["selected"];
-        $intents = Intent::where("project_id", $project->id)->paginate(10);
+        $intents = TraningStatus::where("project_id", $project->id)->paginate(10);
         return view("admin.pages.ai.intent", ["intents" => $intents]);
     }
 
     public function edit(Request $request, $id){
-        $intent = Intent::with(["patterns", "responses"])->findOrFail($id);
+        $intent = TraningStatus::with(["patterns", "responses"])->findOrFail($id);
         return view("admin.pages.ai.intent-update", ["intent" => $intent]);
     }
 
@@ -31,13 +31,13 @@ class IntentController extends Controller
         $selected = session("project")["selected"];
         $name = $request["name"];
         $des = $request["description"];
-        $intent = new Intent(["tag" => $name, "description" => $des, "project_id" => $selected->id]);
+        $intent = new TraningStatus(["tag" => $name, "description" => $des, "project_id" => $selected->id]);
         $intent->save();
         return redirect()->route("ai.intent.index")->with("success", "Created new intnent");
     }
 
     public function editPost(Request $request, $id){
-        $intent = Intent::with(["patterns", "responses"])->findOrFail($id);
+        $intent = TraningStatus::with(["patterns", "responses"])->findOrFail($id);
         $data = $request->all();
 
         if(isset($data["pattern"]["old"])){
@@ -67,6 +67,7 @@ class IntentController extends Controller
                 Response::insert(["intent_id" => $id, "response" => $item]);
             }
         }
+        (new TraningStatus(["project_id" => $id, "status" => 0, "detai" => "Update User Intent"]))->save();
         return redirect()->back()->with("success", "Thành công!");
     }
 }
