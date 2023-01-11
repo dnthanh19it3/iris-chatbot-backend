@@ -2,6 +2,7 @@
 
 namespace App\Models\AI;
 
+use App\Models\Project\Project;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -21,5 +22,9 @@ class Intent extends Model
     public function patterns()
     {
         return $this->hasMany(Pattern::class, "intent_id", "id");
+    }
+
+    public function project(){
+        return $this->belongsTo(Project::class, "project_id", "id");
     }
 }

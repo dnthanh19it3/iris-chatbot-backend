@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\AI\TrainingController;
 use App\Http\Controllers\Web\User\ProjectController;
 use App\Http\Controllers\Web\User\UserAuthController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,11 @@ Route::middleware(["auth.user"])->group(function (){
                 Route::post("create", "createPost")->name("ai.intent.create.post");
                 Route::get("/edit/{id}", "edit")->name("ai.intent.edit");
                 Route::post("/edit/{id}", "editPost")->name("ai.intent.edit-post");
+            });
+            Route::prefix("training")->controller(TrainingController::class)->group(function (){
+                Route::get("/", "index")->name("ai.training.index");
+                Route::get("check-project-traning-status/{project_id}", "checkTrainingProject")->name("ai.training.check-training");
+                Route::get("validate-project-traning-status/{project_id}", "validateTrainingProject")->name("ai.training.validate-training");
             });
         });
     });

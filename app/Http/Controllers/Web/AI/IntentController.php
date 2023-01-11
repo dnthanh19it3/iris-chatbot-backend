@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AI\Intent;
 use App\Models\AI\Pattern;
 use App\Models\AI\Response;
+use App\Models\AI\TraningStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,6 +68,8 @@ class IntentController extends Controller
                 Response::insert(["intent_id" => $id, "response" => $item]);
             }
         }
+        $parent = $intent->project;
+        (new TraningStatus(["project_id" => $parent->id, "status" => 0, "detail" => "Update User Intent"]))->save();
         return redirect()->back()->with("success", "Thành công!");
     }
 }
