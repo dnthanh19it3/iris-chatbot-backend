@@ -61,6 +61,7 @@ Route::middleware(["auth.user"])->group(function (){
             Route::prefix("training")->controller(TrainingController::class)->group(function (){
                 Route::get("/", "index")->name("ai.training.index");
                 Route::get("check-project-traning-status/{project_id}", "checkTrainingProject")->name("ai.training.check-training");
+                Route::get("validate-project-traning-status/{project_id}", "validateTrainingProject")->name("ai.training.validate-training");
             });
         });
     });

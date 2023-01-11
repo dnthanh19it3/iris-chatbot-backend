@@ -10,11 +10,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
-                            <div class="card card-primary">
+                            <div class="card card-primary" style="min-height: 140px">
                                 <div class="card-header">
                                     <h3 class="card-title">Server status</h3>
                                 </div>
-                                <div class="card-body" style="min-height: 90px">
+                                <div class="card-body">
                                     <i id="serverStatusIcon" class="fa fa-dot-circle mr-3"></i><span id="serverStatus">Checking</span>
                                 </div>
                                 <div id="serverStatusOverlay" class="overlay dark">
@@ -23,19 +23,19 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card card-primary">
+                            <div class="card card-primary" style="min-height: 140px">
                                 <div class="card-header">
-                                    <h3 class="card-title">Training status</h3>
+                                    <h3 class="card-title">Training status <button id="requestTrainBtn" class="btn btn-sm btn-success"><i class="fa fa-star"></i></button> </h3>
                                 </div>
-                                <div class="card-body" style="min-height: 90px">
+                                <div class="card-body">
                                     <div>
                                         <i class="fa fa-dot-circle text-success mr-3"></i><span>Running</span>
                                     </div>
-                                    <div><code>Update dataset 2 mins ago, Not trained</code></div>
+                                    <div><code>Update dataset <span id="lastUpdateDataset">...</span>, <span id="trainStatus">...</span></code></div>
                                 </div>
-{{--                                                                <div class="overlay dark">--}}
-{{--                                                                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>--}}
-{{--                                                                </div>--}}
+                                    <div id="trainingOverlay" class="overlay dark">
+                                        <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                                    </div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="card-footer">
-{{--                    <a href="{{ route("ai.intent.create") }}" class="btn btn-info">Create</a>--}}
+                    {{--                    <a href="{{ route("ai.intent.create") }}" class="btn btn-info">Create</a>--}}
                 </div>
 
             </div>
@@ -114,10 +114,15 @@
 @endsection
 @section("custom_js")
     <script type="text/javascript">
-        let baseUrl = "http://127.0.0.1:5000/";
+        let baseUrl = "https://quocthinh.iristech.live:5000/";
         $(document).ready(function () {
+            $("#trainingOverlay").hide();
             $("#btninit").click(function () {
                 console.log("Init clicked");
+            });
+
+            $("#requestTrainBtn").click(function () {
+                requestTrain();
             });
             checkServerStatus();
             fetchTrainingStatus();
@@ -143,38 +148,64 @@
             }
             function fetchTrainingStatus(){
                 console.log("Check Train");
-                let checkingUrl = "{{ "BULLSHIT" }}";
+                let checkingUrl = "{{ route("ai.training.check-training", ["project_id" => $project->id]) }}";
                 $("#status_train").text("Đang khởi chạy");
                 $.ajax({
                     type: "GET",
                     url: checkingUrl,
                     async: true,
                     success: function (result) {
-                       console.log(result);
+                        console.log(result);
+                        $("#lastUpdateDataset").text(result.data.created_at);
+                        $("#trainStatus").text(result.data.tranied ? "Trained" : "Not trained");
                     }
                 });
             }
-            function train(){
-                console.log("Train");
-                let train_url = baseUrl + "train_app/" + {{ $project->id }};
-                let checkingUrl = "{{ route("ai.training.check-training") }}";
+            function fetchTrainingStatus(){
+                console.log("Check Train");
+                let checkingUrl = "{{ route("ai.training.check-training", ["project_id" => $project->id]) }}";
+                $("#status_train").text("Đang khởi chạy");
+                $.ajax({
+                    type: "GET",
+                    url: checkingUrl,
+                    async: true,
+                    success: function (result) {
+                        console.log(result);
+                        $("#lastUpdateDataset").text(result.data.created_at);
+                        console.log(result.data.trained);
+                        $("#trainStatus").text(result.data.trained ? "Trained" : "Not trained");
+                    }
+                });
+            }
+
+            function requestTrain(){
+                $("#trainingOverlay").show();
+                let train_url = baseUrl + "train_app/{{ $project->id }}";
                 $("#status_train").text("Đang khởi chạy");
                 $.ajax({
                     type: "GET",
                     url: train_url,
                     async: true,
                     success: function (result) {
-                        let request_result = JSON.parse(result);
-                        if(request_result.status == 1){
-                            $("#status_train").text(request_result.message);
-                            init();
-                        } else {
-                            $("#status_train").text(request_result.message);
-                        }
+                       validateTrained();
+                        $("#trainingOverlay").hide();
+                    }
+                });
+            }
+
+            function validateTrained() {
+                console.log("Check Train");
+                let checkingUrl = "{{ route("ai.training.validate-training", ["project_id" => $project->id]) }}";
+                $.ajax({
+                    type: "GET",
+                    url: checkingUrl,
+                    async: true,
+                    success: function (result) {
+                        console.log(result);
+                        fetchTrainingStatus();
                     }
                 });
             }
         });
     </script>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\SocialNetwork;
 
 use App\Http\Controllers\ApiController;
+use App\Models\Intergration\Integration;
 use App\Models\Intergration\MessengerImplement;
 use App\Models\Project\Project;
 use App\Ultils\FacebookUltils;
@@ -55,27 +56,31 @@ class FacebookApiController extends ApiController
             Log::info("Continue processing");
             Log::info("______________");
 
-//            if ($object && !empty($entry)) {
-//                switch ($object) {
-//                    case "page":
-//                        $messageObj = $entry[0]["messaging"];
-//                        $sender = $messageObj[0]["sender"]["id"];
-//                        $msg = $messageObj[0]["message"]["text"];
-//                        $facebookImplement = null;
-//                        try {
-//                            $facebookImplement = $project->intergrations->where("platform", "messenger")->first()->messengerImplement;
-//                        } catch (\Throwable $e) {
-//                            throw new \Exception("Not found");
-//                        }
-//                        $predictResult = $this->predictAi($project_id, $msg);
-//                        if (!$predictResult) {
-//                            $predictResult = "Tôi chưa hiểu ý bạn lắm";
-//                        }
-//                        Log::debug($predictResult);
-//                        $apiSendResult = FacebookUltils::sendMessage($facebookImplement->page_access_token, $sender, $predictResult);
-//                        break;
-//                }
-//            }
+            if ($object && !empty($entry)) {
+                switch ($object) {
+                    case "page":
+                        $messageObj = $entry[0]["messaging"];
+                        $id = $entry[0]["id"];
+                        $sender = $messageObj[0]["sender"]["id"];
+                        $msg = $messageObj[0]["message"]["text"];
+                        $facebookImplement = null;
+                        $project_id = null;
+                        try {
+                            $facebookImplement = MessengerImplement::where("page_id", $id)->first();
+                            $project_id = $facebookImplement->project_id;
+                        } catch (\Throwable $e) {
+                            Log::error($e);
+                            throw new \Exception("Not found");
+                        }
+                        $predictResult = $this->predictAi($project_id, $msg);
+                        if (!$predictResult) {
+                            $predictResult = "Tôi chưa hiểu ý bạn lắm";
+                            //Log invalid
+                        }
+                        $apiSendResult = FacebookUltils::sendMessage($facebookImplement->access_token, $sender, $predictResult);
+                    break;
+                }
+            }
             return $this->responseSuccess();
         } catch (\Throwable $e) {
             Log::error($e);

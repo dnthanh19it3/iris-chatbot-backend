@@ -11,7 +11,7 @@ class TraningStatus extends Model
 {
     use HasFactory;
 
-    protected $table = "training";
+    protected $table = "ai_training_status";
     protected $guarded = [];
 
     public function project()
