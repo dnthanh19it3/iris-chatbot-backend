@@ -30,6 +30,13 @@ class ProjectController extends Controller
         if(!$project->save()){
             return back(500)->withErrors(["error" => "Unknow error"])->withInput($insertData);
         }
+        $projects = Auth::user()->projects()->select("id", "name")->get();
+        session([
+            "project" => [
+                "list" => $projects,
+                "selected" => (count($projects) > 0) ? $projects->shift() : null
+            ]
+        ]);
         return redirect()->route("user.project.index");
     }
     function update(Request $request, $id){
@@ -79,6 +86,17 @@ class ProjectController extends Controller
         } catch (\Throwable $e){
             return back(500);
         }
+        return redirect()->back();
+    }
+    function delete(Request $request, $id){
+        $project = Project::find($id)->delete();
+        $projects = Auth::user()->projects()->select("id", "name")->get();
+        session([
+            "project" => [
+                "list" => $projects,
+                "selected" => (count($projects) > 0) ? $projects->shift() : null
+            ]
+        ]);
         return redirect()->back();
     }
 }

@@ -51,6 +51,7 @@ Route::middleware(["auth.user"])->group(function (){
             Route::get("update/{id}", "update")->name("user.project.update");
             Route::post("update", "updatePost")->name("user.project.update.post");
             Route::get("messenger-intergration", "messengerIntergration")->name("user.project.messenger-intergration");
+            Route::get("delete/{id}", "delete")->name("user.project.delete");
         });
         Route::prefix("ai")->group(function (){
             Route::prefix("intent")->controller(IntentController::class)->group(function (){
@@ -77,5 +78,7 @@ Route::get("/", function (){
 Route::group(["middleware" => ["guest"]], function (){
     Route::get("login", [UserAuthController::class, "loginUI"])->name("user.auth.login");
     Route::post("login", [UserAuthController::class, "authenticate"])->name("user.auth.login.post");
+    Route::post("register", [UserAuthController::class, "registerPost"])->name("user.auth.register");
+    Route::get("register", [UserAuthController::class, "register"])->name("user.auth.register.post");
 });
 Route::get("console/get-dataset/{id}", [ProjectController::class, "exportIntents"])->name("export-dataset");

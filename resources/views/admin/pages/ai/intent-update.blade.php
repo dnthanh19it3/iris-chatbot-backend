@@ -345,14 +345,13 @@
             const containerResponse = $("#response-container");
             const txtPattern = $("#txt_pattern");
             const txtResponse = $("#txt_response");
+
             btnAddPattern.click(function () {
-                console.log(txtPattern.val());
                 containerPattern.append(htmlToElement(generateInputPattern(txtPattern.val())));
                 txtPattern.val("")
             });
 
             btnAddResponse.click(function () {
-                console.log(txtResponse.val());
                 containerResponse.append(htmlToElement(generateInputReponse(txtResponse.val())));
                 txtResponse.val("");
             });
