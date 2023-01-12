@@ -114,7 +114,7 @@
 @endsection
 @section("custom_js")
     <script type="text/javascript">
-        let baseUrl = "https://quocthinh.iristech.live:5000/";
+        let aiUrl = "{{ config("url.ai") }}";
         $(document).ready(function () {
             $("#trainingOverlay").hide();
             $("#btninit").click(function () {
@@ -129,7 +129,7 @@
             function checkServerStatus() {
                 $.ajax({
                     type: "GET",
-                    url: baseUrl,
+                    url: aiUrl,
                     async: true,
                     success: function (result) {
                         $("#serverStatusOverlay").show();
@@ -180,8 +180,7 @@
 
             function requestTrain(){
                 $("#trainingOverlay").show();
-                let train_url = baseUrl + "train_app/{{ $project->id }}";
-                $("#status_train").text("Đang khởi chạy");
+                let train_url = aiUrl + "/train_app/{{ $project->id }}";
                 $.ajax({
                     type: "GET",
                     url: train_url,
@@ -194,7 +193,6 @@
             }
 
             function validateTrained() {
-                console.log("Check Train");
                 let checkingUrl = "{{ route("ai.training.validate-training", ["project_id" => $project->id]) }}";
                 $.ajax({
                     type: "GET",

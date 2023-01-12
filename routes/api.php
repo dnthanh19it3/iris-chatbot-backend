@@ -29,7 +29,7 @@ Route::prefix("social")->group(function () {
     Route::prefix("facebook")->controller(FacebookApiController::class)->group(function () {
         Route::any("hook", "hook");
         Route::post("login_callback", "loginCallback")->name("api.social.login_callback");
-        Route::post("page_verify", "pageVerify")->name("api.social.page_verify");
+        Route::post("page_verify/{project_id}", "pageVerify")->name("api.social.page_verify");
         Route::any("callback", "callback");
     });
 });

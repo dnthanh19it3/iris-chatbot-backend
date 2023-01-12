@@ -58,4 +58,9 @@ class ProjectController extends Controller
         $dataset = $project->exportDataset();
         return response()->json($dataset);
     }
+
+    public function messengerIntergration(){
+        $project = session("project")["selected"] ?? [];
+        return view('admin.pages.projects.messenger-intergration', ["project" => $project]);
+    }
 }

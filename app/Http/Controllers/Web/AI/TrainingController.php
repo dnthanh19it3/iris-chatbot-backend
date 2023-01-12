@@ -16,6 +16,9 @@ class TrainingController extends ApiController
 {
     public function index(){
         $project = session("project")["selected"];
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
         return view("admin.pages.ai.training", ["project" => $project]);
     }
     public function checkTrainingProject(Request $request, $project_id){

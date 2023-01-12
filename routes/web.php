@@ -49,6 +49,7 @@ Route::middleware(["auth.user"])->group(function (){
             Route::post("create", "createPost")->name("user.project.create.post");
             Route::get("update/{id}", "update")->name("user.project.update");
             Route::post("update", "updatePost")->name("user.project.update.post");
+            Route::get("messenger-intergration", "messengerIntergration")->name("user.project.messenger-intergration");
         });
         Route::prefix("ai")->group(function (){
             Route::prefix("intent")->controller(IntentController::class)->group(function (){
