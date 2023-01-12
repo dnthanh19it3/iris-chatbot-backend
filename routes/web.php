@@ -45,6 +45,7 @@ Route::middleware(["auth.user"])->group(function (){
         })->name("console.dashboard");
         Route::prefix("project")->controller(ProjectController::class)->group(function (){
             Route::get("/", "index")->name("user.project.index");
+            Route::get("change-project/{id}", "changeProject")->name("user.project.change");
             Route::get("create", "create")->name("user.project.create");
             Route::post("create", "createPost")->name("user.project.create.post");
             Route::get("update/{id}", "update")->name("user.project.update");

@@ -63,4 +63,22 @@ class ProjectController extends Controller
         $project = session("project")["selected"] ?? [];
         return view('admin.pages.projects.messenger-intergration', ["project" => $project]);
     }
+
+    public function changeProject(Request $request, $id){
+        $projects = Auth::user()->projects()->whereNot("id", $id)->select("id", "name")->get();
+        $selectedProject = Project::find($id);
+
+        try {
+            //Set user information session
+            session([
+                "project" => [
+                    "list" => $projects,
+                    "selected" => $selectedProject
+                ]
+            ]);
+        } catch (\Throwable $e){
+            return back(500);
+        }
+        return redirect()->back();
+    }
 }

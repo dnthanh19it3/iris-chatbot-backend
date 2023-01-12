@@ -38,32 +38,7 @@
                                     </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="card bg-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Loading state (dark)</h3>
-                                </div>
-                                <div class="card-body">
-                                    The body of the card
-                                </div>
-                                <div class="overlay dark">
-                                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card bg-gradient-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Loading state (dark)</h3>
-                                </div>
-                                <div class="card-body">
-                                    The body of the card
-                                </div>
-                                <div class="overlay dark">
-                                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
