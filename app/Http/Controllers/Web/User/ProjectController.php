@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\ProjectCreateRequest;
+use App\Models\Intergration\MessengerImplement;
 use App\Models\Project\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +69,12 @@ class ProjectController extends Controller
 
     public function messengerIntergration(){
         $project = session("project")["selected"] ?? [];
-        return view('admin.pages.projects.messenger-intergration', ["project" => $project]);
+        $connectedPage = null;
+        if($project){
+            $connected = MessengerImplement::where("project_id", $project->id)->first();
+            $connectedPage = $connected ? "Linked page id: " . $connected->page_id : "Not connected";
+        }
+        return view('admin.pages.projects.messenger-intergration', ["project" => $project, "connectedPage" => $connectedPage]);
     }
 
     public function changeProject(Request $request, $id){
