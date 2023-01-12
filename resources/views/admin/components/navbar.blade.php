@@ -12,7 +12,7 @@
                 <a class="dropdown-item bg-info disabled" href="#">{{ session("project.selected")->name ?? trans("app.web.header.project-dropdown.no-project") }}</a>
                 <div class="dropdown-divider"></div>
                 @foreach(session("project.list") ?? [] as $project)
-                    <a class="dropdown-item" href="#">{{ $project->name ?? "" }}</a>
+                    <a class="dropdown-item" href="{{ route("user.project.change", ["id" => $project->id]) }}">{{ $project->name ?? "" }}</a>
                 @endforeach
             </div>
         </li>

@@ -121,9 +121,9 @@ class FacebookApiController extends ApiController
 
         $pageData = explode("_", $pageList);
         $saveHook = FacebookUltils::setPageHook($pageData[0], $pageData[1]);
-        Log::debug($pageData[0]);
-        Log::debug($pageData[1]);
-        Log::debug($saveHook);
+//        Log::debug($pageData[0]);
+//        Log::debug($pageData[1]);
+//        Log::debug($saveHook);
         if(!$saveHook){
             return $this->responseError();
         }

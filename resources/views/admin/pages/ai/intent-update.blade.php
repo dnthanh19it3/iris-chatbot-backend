@@ -28,7 +28,7 @@
                 <div class="card-header">
                     <div class="row d-flex justify-content-center align-content-center align-items-center">
                         <div class="col-md-11">
-                            <input type="text" class="form-control form-control-navbar custom-intent-input" value="{{ $intent->tag }}">
+                            <input type="text" class="form-control form-control-navbar custom-intent-input" name="tag" value="{{ $intent->tag }}">
                         </div>
                         <div class="col-md-1 d-flex justify-content-end">
                             <button class="btn btn-success btn-sm">Save</button>
@@ -348,11 +348,13 @@
             btnAddPattern.click(function () {
                 console.log(txtPattern.val());
                 containerPattern.append(htmlToElement(generateInputPattern(txtPattern.val())));
+                txtPattern.val("")
             });
 
             btnAddResponse.click(function () {
                 console.log(txtResponse.val());
                 containerResponse.append(htmlToElement(generateInputReponse(txtResponse.val())));
+                txtResponse.val("");
             });
         })
     </script>

@@ -41,9 +41,16 @@ class IntentController extends Controller
         $intent = Intent::with(["patterns", "responses"])->findOrFail($id);
         $data = $request->all();
 
+//        dd($data, $data["pattern"]["old"]);
+
+        if(isset($data["tag"])){
+            //Handle insert
+            (Intent::find($id))->fill(["tag" => $data["tag"]])->save();
+        }
+
         if(isset($data["pattern"]["old"])){
             //Handle insert
-            Pattern::where("intent_id", $id)->whereNotIn("pattern", $data["pattern"]["old"])->delete();
+            Pattern::where("intent_id", $id)->whereNotIn("id", array_keys($data["pattern"]["old"]))->delete();
             foreach ($data["pattern"]["old"] as $key => $item){
                 Pattern::where("id", $key)->update(["pattern" => $item]);
             }
@@ -57,7 +64,7 @@ class IntentController extends Controller
 
         if(isset($data["response"]["old"])){
             //Handle insert
-            Response::where("intent_id", $id)->whereNotIn("response", $data["response"]["old"])->delete();
+            Response::where("intent_id", $id)->whereNotIn("id", array_keys($data["response"]["old"]))->delete();
             foreach ($data["response"]["old"] as $key => $item){
                 Response::where("id", $key)->update(["response" => $item]);
             }
