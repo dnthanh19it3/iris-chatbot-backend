@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\AI\Intent;
 use App\Models\AI\Pattern;
+use App\Models\AI\PredictLogs;
 use App\Models\AI\Response;
 use App\Models\AI\TraningStatus;
 use Carbon\Carbon;
@@ -53,5 +54,20 @@ class TrainingController extends ApiController
             return $this->responseError();
         }
         return $this->responseSuccess();
+    }
+    public function logs(){
+        $project = session("project")["selected"];
+        $logs = PredictLogs::where("project_id", $project->id)->where("status", 0)->get();
+        $intents = Intent::where("project_id", $project->id)->get();
+        return view("admin.pages.ai.logs", ["logs" => $logs, "intents" => $intents]);
+    }
+    public function improve(Request $request, $log_id){
+        $pattern = new Pattern(["intent_id" => request("intent_id"), "pattern" => request("pattern")]);
+        $pattern->save();
+        $log = PredictLogs::find($log_id)->fill(["status" => 1]);
+        $log->save();
+        $parent = Intent::find(request("intent_id"))->project;
+        (new TraningStatus(["project_id" => $parent->id, "status" => 0, "detail" => "Update User Intent"]))->save();
+        return redirect()->back();
     }
 }
