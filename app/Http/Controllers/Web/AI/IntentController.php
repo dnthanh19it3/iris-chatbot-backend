@@ -41,8 +41,6 @@ class IntentController extends Controller
         $intent = Intent::with(["patterns", "responses"])->findOrFail($id);
         $data = $request->all();
 
-//        dd($data, $data["pattern"]["old"]);
-
         if(isset($data["tag"])){
             //Handle insert
             (Intent::find($id))->fill(["tag" => $data["tag"]])->save();

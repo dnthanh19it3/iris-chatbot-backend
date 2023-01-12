@@ -1,12 +1,12 @@
 @extends("admin.layouts.layout")
-@section("title", trans("app.web.project.title"))
+@section("title", "Project Manager")
 @section("body")
     <div class="row">
         <div class="col-12">
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ trans("app.web.project.title") }}</h3>
+                    <h3 class="card-title">Project Manager</h3>
                     <div class="card-tools">
                         <a href="{{ route("user.project.create") }}" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -49,7 +49,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="action-bar-item">
-                                                    <a href="#" class="btn btn-sm btn-danger">
+                                                    <a href="{{ route("user.project.delete", ["id" => $project->id]) }}" class="btn btn-sm btn-danger">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
                                                 </div>
