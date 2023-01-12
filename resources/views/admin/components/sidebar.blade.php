@@ -61,7 +61,7 @@
                      with font-awesome or any other icon font library -->
                 <li class="nav-header">Integration</li>
                 <li class="nav-item">
-                    <a href="{{ route("user.project.index") }}" class="nav-link">
+                    <a href="{{ route("user.project.messenger-intergration") }}" class="nav-link">
                         <i class="nav-icon fab fa-facebook-messenger"></i>
                         <p>Integration</p>
                     </a>

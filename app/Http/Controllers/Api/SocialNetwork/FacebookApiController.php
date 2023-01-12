@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\SocialNetwork;
 
 use App\Http\Controllers\ApiController;
+use App\Models\AI\PredictLogs;
 use App\Models\Intergration\Integration;
 use App\Models\Intergration\MessengerImplement;
 use App\Models\Project\Project;
@@ -73,9 +74,11 @@ class FacebookApiController extends ApiController
                             throw new \Exception("Not found");
                         }
                         $predictResult = $this->predictAi($project_id, $msg);
+                        Log::debug($predictResult);
                         if (!$predictResult) {
                             $predictResult = "Tôi chưa hiểu ý bạn lắm";
                             //Log invalid
+                            (new PredictLogs(["project_id" => $project_id, "content" => $msg, "status" => 0]))->save();
                         }
                         $apiSendResult = FacebookUltils::sendMessage($facebookImplement->access_token, $sender, $predictResult);
                     break;
@@ -91,7 +94,7 @@ class FacebookApiController extends ApiController
     function predictAi($project_id, $message)
     {
         try {
-            $response = Http::get("localhost:5000/predict", ["msg" => $message, "project_id" => $project_id]);
+            $response = Http::get("http://127.0.0.1:5000/" . $project_id . "/predict", ["msg" => $message]);
             if ($response->status() == 200) {
                 $body = json_decode($response->body());
                 $type = $body->type;
@@ -111,7 +114,7 @@ class FacebookApiController extends ApiController
         }
     }
 
-    public function pageVerify(Request $request){
+    public function pageVerify(Request $request, $project_id){
         Log::info($request->all());
         $pageList = $request["pageID"];
         $pageAccessToken = $request["accessToken"];
@@ -125,7 +128,7 @@ class FacebookApiController extends ApiController
             return $this->responseError();
         }
         $project = MessengerImplement::insert([
-            "integration_id" => "123",
+            "project_id" => $project_id,
             "page_id" => $pageData[0],
             "access_token" => $pageData[1],
             "user_id" => $request->userID
