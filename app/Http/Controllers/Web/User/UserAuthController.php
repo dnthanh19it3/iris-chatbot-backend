@@ -52,4 +52,12 @@ class UserAuthController extends Controller
         //Handle failed
         return back()->withErrors(["invalid-auth" => trans("auth.web.auth.invalid-cred")])->onlyInput('email');
     }
+
+    public function register(){
+        return view("admin.pages.auths.register");
+    }
+
+    public function registerPost(){
+
+    }
 }
