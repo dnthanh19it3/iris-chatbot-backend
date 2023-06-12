@@ -135,7 +135,7 @@
                 // console.log(response);
                 // Request
                 let req = new XMLHttpRequest();
-                req.open("POST", "https://quocthinh.iristech.live/api/social/facebook/login_callback", false);
+                req.open("POST", "https://irisbot.iristech.live/api/social/facebook/login_callback", false);
                 req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
                 req.send(data);
                 // Result list page
@@ -172,7 +172,7 @@
             //         // console.log(response);
             //         // Request
             //         let req = new XMLHttpRequest();
-            //         req.open("POST", "https://quocthinh.iristech.live/api/social/facebook/login_callback", false);
+            //         req.open("POST", "https://irisbot.iristech.live/api/social/facebook/login_callback", false);
             //         req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
             //         req.send(data);
             //         // Result
@@ -189,7 +189,7 @@
             //             // console.log(response);
             //             // Request
             //             let req = new XMLHttpRequest();
-            //             req.open("POST", "https://quocthinh.iristech.live/api/social/facebook/login_callback", false);
+            //             req.open("POST", "https://irisbot.iristech.live/api/social/facebook/login_callback", false);
             //             req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
             //             req.send(data);
             //             // Result
@@ -217,7 +217,7 @@
                 var json = JSON.stringify(object);
                 console.log(json);
                 let req = new XMLHttpRequest();
-                req.open("POST", "https://quocthinh.iristech.live/api/social/facebook/page_verify", false);
+                req.open("POST", "https://irisbot.iristech.live/api/social/facebook/page_verify", false);
                 req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
                 req.send(json);
                 console.log(data.response);
