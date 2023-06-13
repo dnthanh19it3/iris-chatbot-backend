@@ -60,6 +60,7 @@ Route::middleware(["auth.user"])->group(function (){
                 Route::post("create", "createPost")->name("ai.intent.create.post");
                 Route::get("/edit/{id}", "edit")->name("ai.intent.edit");
                 Route::post("/edit/{id}", "editPost")->name("ai.intent.edit-post");
+                Route::get("/delete/{id}", "delete")->name("ai.intent.delete");
             });
             Route::prefix("training")->controller(TrainingController::class)->group(function (){
                 Route::get("/", "index")->name("ai.training.index");

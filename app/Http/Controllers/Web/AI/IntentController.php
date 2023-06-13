@@ -24,6 +24,12 @@ class IntentController extends Controller
         return view("admin.pages.ai.intent-update", ["intent" => $intent]);
     }
 
+    public function delete(Request $request, $id){
+        $intent = Intent::findOrFail($id);
+        $intent->delete();
+        return redirect()->back();
+    }
+
     public function create(Request $request){
         return view("admin.pages.ai.intent-create");
     }
