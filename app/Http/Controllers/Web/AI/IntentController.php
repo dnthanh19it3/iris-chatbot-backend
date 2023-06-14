@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Web\AI;
 
 use App\Http\Controllers\Controller;
+use App\Imports\IntentImport;
 use App\Models\AI\Intent;
 use App\Models\AI\Pattern;
 use App\Models\AI\Response;
 use App\Models\AI\TraningStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IntentController extends Controller
 {
@@ -82,5 +84,49 @@ class IntentController extends Controller
         $parent = $intent->project;
         (new TraningStatus(["project_id" => $parent->id, "status" => 0, "detail" => "Update User Intent"]))->save();
         return redirect()->back()->with("success", "Thành công!");
+    }
+
+    public function intentImport(Request $request){
+        $file = $request->file('excel_file');
+        if(!$file){
+            return redirect()->back()->with("error", "No file selected");
+        }
+        $rawData = Excel::toArray(new IntentImport(), request()->file('excel_file'));
+        $intents = data_get($rawData[0], '*.intent');
+        $output = [];
+        foreach ($intents as $intent){
+            $tempPattern = [];
+            foreach ($rawData[0] as $item){
+                if($item['intent'] == $intent){
+                    $tempPattern[] = $item['pattern'];
+                }
+            }
+            $tempRes = [];
+            foreach ($rawData[1] as $item){
+                if($item['intent'] == $intent){
+                    $tempRes[] = $item['response'];
+                }
+            }
+            $output[$intent]['pattern'] = $tempPattern;
+            $output[$intent]['response'] = $tempRes;
+        }
+
+        foreach ($output as $key => $o){
+            $sIntent = Intent::where('tag', $o)->first();
+            $intentId = null;
+            $selected = session("project")["selected"];
+            if(!$sIntent){
+                $intentId = Intent::insertGetId(["tag" => $key, "description" => '', "project_id" => $selected->id]);
+                if($intentId){
+                    foreach ($o['pattern'] as $item){
+                        (new Pattern(["intent_id" => $intentId, "pattern" => $item]))->save();
+                    }
+                    foreach ($o['response'] as $item){
+                        (new Response(["intent_id" => $intentId, "response" => $item]))->save();
+                    }
+                }
+            }
+        }
+        return redirect()->back()->with('sucess', 'Import intent success');
     }
 }

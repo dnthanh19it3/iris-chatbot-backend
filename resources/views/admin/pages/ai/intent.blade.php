@@ -52,6 +52,14 @@
 
             </div>
 
+            <form enctype="multipart/form-data" action="{{ route('ai.intent.import') }}" method="post">
+                @csrf
+                <div class="form-row" style="padding: 8px">
+                    <input name="excel_file" type="file" class="form-control form-control-file">
+                </div>
+                <button type="submit" class="btn btn-primary">Upload Intent</button>
+            </form>
+
         </div>
 
     </div>
